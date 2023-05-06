@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>hodlinfo.com</title>
+  <script src="https://kit.fontawesome.com/aa620e5035.js" crossorigin="anonymous"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <header>
+    <div id="nav">
+      <div class="img"><img src="HODLINFO.png" alt="" style="width: 355px;"></div>
+      <div id="button">
+        <div>
+          <select name="INR" id="INR" class="btn1">
+            <option value="INR">INR</option>
+          </select>
+        </div>
+        <div>
+          <select name="crypto" class="btn1">
+            <option value="BTC">BTC</option>
+            <option value="ETH">ETH</option>
+            <option value="USDT" selected>USDT</option>
+            <option value="XRP">XRP</option>
+            <option value="TRX">TRX</option>
+            <option value="DASH">DASH</option>
+            <option value="ZEC">ZEC</option>
+            <option value="XEM">XEM</option>
+            <option value="IOST">IOST</option>
+            <option value="WIN">WIN</option>
+            <option value="BTT">BTT</option>
+            <option value="WRX">WRX</option>
+          </select>
+        </div>
+        <div class="btn1">
+          BUY
+        </div>
+      </div>
+      <div id="timer">
+      </div>
+      <div id="telegram">
+        <button class="btn"><i class="fa-brands fa-telegram" style="color: #ffffff;margin-right:10px;"></i><a href="">Connect Telegram</a></button>
+        <label class="switch">
+          <input type="checkbox">
+          <span class="slider round"></span>
+        </label>
+      </div>
+    </div>
+  </header>
+    <div class="sectionDiv">
+        <h1>Best Price to Trade</h1>
+    </div>
+  <main>
+    <div class="container">
+      <table id="dataTable">
+        <!-- table content will be added dynamically -->
+        <th>#</th>
+        <th>Name</th>
+        <th>Last</th>
+        <th>Sell</th>
+        <th>Buy</th>
+        <th>Volume</th>
+        <th>Base_unit</th>
+      </table>
+    </div>
+    <script>
+      //toggle for dark mode
+      var darkMode = 1;
+      document.querySelector(".slider").addEventListener("click", function() {
+        if (darkMode == 1) {
+          var elements = document.querySelectorAll(".btn1");
+          elements.forEach((element) => {
+            element.classList.add('whiteButton');
+          });
+          var elements2 = document.querySelectorAll("tr");
+          elements2.forEach((element) => {
+            element.classList.add('whiteTable');
+          });
+          document.querySelector("body").classList.add("white");
+          darkMode = 0;
+        } else if (darkMode == 0) {
+          document.querySelector("body").classList.remove("white");
+          var elements = document.querySelectorAll(".btn1");
+          elements.forEach((element) => {
+            element.classList.remove('whiteButton');
+          });
+          var elements2 = document.querySelectorAll("tr");
+          elements2.forEach((element) => {
+            element.classList.remove('whiteTable');
+          });
+          darkMode = 1;
+        }
+      })
+
+      var num = 1;
+      // Fetch the JSON data
+      fetch('/data')
+        .then(response => response.json())
+        .then(data => {
+          // Process the JSON data
+          const table = document.getElementById('dataTable');
+
+          data.forEach(item => {
+            const row = document.createElement('tr');
+            const sl = document.createElement('td');
+            const name = document.createElement('td');
+            const last = document.createElement('td');
+            const sell = document.createElement('td');
+            const buy = document.createElement('td');
+            const volume = document.createElement('td');
+            const base_unit = document.createElement('td');
+            
+
+
+            sl.textContent = (num);
+            name.textContent = item.name;
+            last.textContent = item.last;
+            buy.textContent = item.buy;
+            sell.textContent = item.sell;
+            volume.textContent = item.volume;
+            base_unit.textContent = item.base_unit;
+
+            row.appendChild(sl);
+            row.appendChild(name);
+            row.appendChild(last);
+            row.appendChild(buy);
+            row.appendChild(sell);
+            row.appendChild(volume);
+            row.appendChild(base_unit);
+
+            table.appendChild(row);
+            num++;
+          });
+        })
+        .catch(error => console.log(error));
+    </script>
+  </main>
+  <hr>
+  <footer>
+    <div class="footerDiv">
+      <div class="Copyright">
+        <p>Copyright © 2019</p>
+        <p>Hodlinfo.com</p>
+      </div>
+      <div class="Support">
+        <p>Support</p>
+      </div>
+    </div>
+  </footer>
+</body>
+
+</html>
